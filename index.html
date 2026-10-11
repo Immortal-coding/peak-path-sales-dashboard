@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Peak Path sales performance dashboard">
+    <title>Peak Path — Sales Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Load Chart.js before the dashboard scripts that will create the charts. -->
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Defer scripts so the page is parsed before they run; their order is preserved. -->
+    <script defer src="js/csv.js"></script>
+    <script defer src="js/data.js"></script>
+    <script defer src="js/metrics.js"></script>
+    <script defer src="js/charts.js"></script>
+    <script defer src="js/dashboard.js"></script>
+</head>
+<body>
+    <header class="dashboard-header">
+        <div>
+            <p class="eyebrow">Sales performance</p>
+            <h1>Peak Path — Sales Dashboard</h1>
+            <p class="dashboard-subtitle">A clear view of your leads, pipeline, and sales results.</p>
+        </div>
+        <p class="updated-at">Last updated: <time id="last-updated">Not available yet</time></p>
+    </header>
+
+    <main>
+        <section class="filters-section" aria-labelledby="filters-heading">
+            <h2 id="filters-heading">Filter Leads</h2>
+            <div class="filters-grid">
+                <div class="filter-control">
+                    <label for="filter-source">Source</label>
+                    <select id="filter-source" name="source">
+                        <option value="">All Sources</option>
+                    </select>
+                </div>
+                <div class="filter-control">
+                    <label for="filter-rep">Sales Representative</label>
+                    <select id="filter-rep" name="rep">
+                        <option value="">All Representatives</option>
+                    </select>
+                </div>
+                <div class="filter-control">
+                    <label for="filter-stage">Stage</label>
+                    <select id="filter-stage" name="stage">
+                        <option value="">All Stages</option>
+                    </select>
+                </div>
+                <div class="filter-control">
+                    <label for="filter-start-date">Start Date</label>
+                    <input id="filter-start-date" name="start-date" type="date">
+                </div>
+                <div class="filter-control">
+                    <label for="filter-end-date">End Date</label>
+                    <input id="filter-end-date" name="end-date" type="date">
+                </div>
+                <div class="filter-actions">
+                    <button id="reset-filters-button" type="button">Reset Filters</button>
+                    <button id="refresh-data-button" type="button">Refresh Data</button>
+                </div>
+            </div>
+            <p id="refresh-status" role="status" aria-live="polite"></p>
+        </section>
+
+        <!-- These cards provide a home for the key metrics calculated from the lead data. -->
+        <section class="kpi-grid" aria-label="Sales key performance indicators">
+            <article class="kpi-card">
+                <h2>Total Leads</h2>
+                <p id="total-leads" aria-live="polite">—</p>
+            </article>
+            <article class="kpi-card">
+                <h2>Total Booked Calls</h2>
+                <p id="booked-calls" aria-live="polite">—</p>
+                <p class="kpi-subtext">Calls booked + won + no-show + lost</p>
+            </article>
+            <article class="kpi-card">
+                <h2>Won Deals</h2>
+                <p id="won-deals" aria-live="polite">—</p>
+            </article>
+            <article class="kpi-card">
+                <h2>Total Revenue</h2>
+                <p id="total-revenue" aria-live="polite">—</p>
+            </article>
+            <article class="kpi-card">
+                <h2>Lead-to-Booked Conversion</h2>
+                <p id="lead-to-booked" aria-live="polite">—</p>
+            </article>
+            <article class="kpi-card">
+                <h2>Booked-to-Won Conversion</h2>
+                <p id="booked-to-won" aria-live="polite">—</p>
+            </article>
+        </section>
+
+        <!-- Each chart has its own section and canvas for a future Chart.js visualization. -->
+        <section class="charts-grid" aria-label="Sales charts">
+            <article class="chart-card" id="lead-funnel-chart">
+                <h2>Lead Funnel by Stage</h2>
+                <div class="chart-container">
+                    <canvas id="lead-funnel-canvas" role="img" aria-label="Lead funnel by stage chart"></canvas>
+                </div>
+            </article>
+            <article class="chart-card" id="leads-by-source-chart">
+                <h2>Leads by Source</h2>
+                <div class="chart-container">
+                    <canvas id="leads-by-source-canvas" role="img" aria-label="Leads by source chart"></canvas>
+                </div>
+            </article>
+            <article class="chart-card" id="close-rate-by-rep-chart">
+                <h2>Close Rate by Sales Rep</h2>
+                <div class="chart-container">
+                    <canvas id="close-rate-by-rep-canvas" role="img" aria-label="Close rate by sales representative chart"></canvas>
+                </div>
+            </article>
+        </section>
+
+        <section class="data-status" aria-label="Dashboard data status">
+            <p id="loading-message" role="status" aria-live="polite">Loading lead data…</p>
+            <p id="error-message" role="alert" hidden></p>
+        </section>
+    </main>
+</body>
+</html>

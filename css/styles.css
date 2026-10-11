@@ -1,0 +1,510 @@
+/* Peak Path dashboard theme: adjust these variables to quickly change the look. */
+:root {
+    color-scheme: light;
+    --color-page: #f5f7fb;
+    --color-surface: #ffffff;
+    --color-text: #182230;
+    --color-muted: #667085;
+    --color-border: #e4e9f0;
+    --color-accent: #3568d4;
+    --color-accent-soft: #edf3ff;
+    --color-success: #18845b;
+    --color-error: #b42318;
+    --color-error-soft: #fff1f0;
+    --space-1: 0.5rem;
+    --space-2: 0.75rem;
+    --space-3: 1rem;
+    --space-4: 1.25rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --radius-card: 14px;
+    --radius-control: 9px;
+    --shadow-card: 0 2px 10px rgb(16 24 40 / 4%);
+    --shadow-card-hover: 0 8px 22px rgb(16 24 40 / 8%);
+}
+
+/* Base page typography and shared sizing. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    min-width: 320px;
+    background: var(--color-page);
+}
+
+body {
+    margin: 0;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    background: var(--color-page);
+    color: var(--color-text);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Header styles support common dashboard title and update-time elements. */
+header,
+.dashboard-header {
+    margin: 0 auto var(--space-6);
+    max-width: 1440px;
+    margin-bottom: var(--space-5);
+}
+
+h1 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: clamp(1.65rem, 3vw, 2.15rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.2;
+}
+
+.subtitle,
+.dashboard-subtitle {
+    margin: var(--space-1) 0 0;
+    color: var(--color-muted);
+    font-size: 1rem;
+}
+
+.last-updated,
+#last-updated,
+.updated-at {
+    display: block;
+    margin-top: var(--space-2);
+    color: var(--color-muted);
+    font-size: 0.8125rem;
+}
+
+/* Filter controls use the same surface and spacing as the dashboard cards. */
+.filters-section {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto var(--space-6);
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+.filters-section h2 {
+    margin: 0 0 var(--space-3);
+    color: var(--color-text);
+    font-size: 1rem;
+    font-weight: 650;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(260px, 1.3fr);
+    gap: var(--space-3);
+    align-items: end;
+}
+
+.filter-control {
+    display: grid;
+    min-width: 0;
+    gap: var(--space-1);
+}
+
+.filter-control label {
+    color: var(--color-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.filter-control select,
+.filter-control input[type="date"] {
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding: 0.625rem 0.75rem;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+    font: inherit;
+}
+
+.filter-control select:hover,
+.filter-control input[type="date"]:hover {
+    border-color: #98a2b3;
+}
+
+.filter-control select:focus-visible,
+.filter-control input[type="date"]:focus-visible,
+.filter-actions button:focus-visible {
+    outline: 3px solid var(--color-accent-soft);
+    outline-offset: 2px;
+    border-color: var(--color-accent);
+}
+
+.filter-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--space-2);
+    min-width: 0;
+}
+
+.filter-actions button {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 42px;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-control);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+#reset-filters-button {
+    color: var(--color-text);
+    background: var(--color-surface);
+    border-color: var(--color-border);
+}
+
+#reset-filters-button:hover {
+    background: #f8fafc;
+    border-color: #98a2b3;
+}
+
+#refresh-data-button {
+    color: #ffffff;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+#refresh-data-button:hover {
+    background: #2855b5;
+    border-color: #2855b5;
+}
+
+#filter-source:disabled,
+#filter-rep:disabled,
+#filter-stage:disabled,
+#filter-start-date:disabled,
+#filter-end-date:disabled,
+.filter-actions button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+#refresh-status {
+    min-height: 1.25em;
+    margin: var(--space-2) 0 0;
+    color: var(--color-muted);
+    font-size: 0.8125rem;
+}
+
+/* KPI cards: six columns on wide screens, then progressively fewer columns. */
+.kpi-grid,
+.kpi-cards,
+.metrics-grid,
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-4);
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto var(--space-6);
+}
+
+.kpi-card,
+.metric-card,
+.stat-card {
+    min-width: 0;
+    padding: var(--space-4);
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 160ms ease, transform 160ms ease;
+}
+
+.kpi-card:hover,
+.metric-card:hover,
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.kpi-card h2,
+.kpi-card h3,
+.metric-card h2,
+.metric-card h3,
+.stat-card h2,
+.stat-card h3,
+.kpi-label,
+.metric-label,
+.stat-label {
+    margin: 0 0 var(--space-2);
+    color: var(--color-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.kpi-value,
+.metric-value,
+.stat-value,
+.kpi-card strong,
+.metric-card strong,
+.stat-card strong {
+    display: block;
+    color: var(--color-text);
+    font-size: clamp(1.35rem, 2vw, 1.8rem);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+}
+
+.kpi-subtext {
+    display: block;
+    width: 100%;
+    margin: var(--space-1) 0 0;
+    color: var(--color-muted);
+    font-size: 0.65rem;
+    line-height: 1.35;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Chart cards share a consistent grid, surface, and inner canvas height. */
+.charts-grid,
+.chart-grid,
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto var(--space-6);
+}
+
+.chart-card {
+    min-width: 0;
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+.chart-card .chart-container {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    min-height: 220px;
+}
+
+.chart-card .chart-container canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+}
+
+/* In the mobile media query */
+.chart-card {
+    padding: var(--space-4);
+}
+
+.chart-card .chart-container {
+    height: 250px;
+}
+
+/* Table wrapper allows the records table to scroll instead of squeezing on mobile. */
+.table-container,
+.table-wrapper,
+.leads-table-container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto var(--space-6);
+    overflow-x: auto;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    min-width: 620px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead {
+    background: #f8fafc;
+}
+
+th {
+    padding: 0.875rem 1rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+td {
+    padding: 0.9rem 1rem;
+    color: var(--color-text);
+    font-size: 0.875rem;
+    border-top: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+tbody tr {
+    transition: background-color 140ms ease;
+}
+
+tbody tr:hover {
+    background: #f8faff;
+}
+
+/* Loading and error feedback remain visible and readable within the page. */
+#loading-message,
+.loading-message {
+    padding: var(--space-4);
+    color: var(--color-muted);
+    text-align: center;
+}
+
+#error-message,
+.error-message {
+    margin: var(--space-3) 0;
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-error);
+    background: var(--color-error-soft);
+    border: 1px solid #fecdca;
+    border-radius: var(--radius-control);
+}
+
+/* Tablet layout keeps cards spacious while reducing the number of columns. */
+@media (max-width: 1100px) {
+    .kpi-grid,
+    .kpi-cards,
+    .metrics-grid,
+    .stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .charts-grid,
+    .chart-grid,
+    .charts-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .filters-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .filter-actions {
+        grid-column: span 3;
+        flex-wrap: wrap;
+    }
+}
+
+/* Small screens use compact spacing and single-column chart cards. */
+@media (max-width: 680px) {
+    body {
+        padding: 1.125rem 1rem;
+    }
+
+    header,
+    .dashboard-header {
+        margin-bottom: var(--space-5);
+    }
+
+    .filters-section {
+        margin-bottom: var(--space-5);
+        padding: var(--space-3);
+    }
+
+    .filters-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-2);
+    }
+
+    .filter-actions {
+        grid-column: 1 / -1;
+    }
+
+    .kpi-grid,
+    .kpi-cards,
+    .metrics-grid,
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-2);
+        margin-bottom: var(--space-5);
+    }
+
+    .kpi-card,
+    .metric-card,
+    .stat-card {
+        padding: var(--space-3);
+    }
+
+    .kpi-subtext {
+        font-size: 0.625rem;
+        text-align: center;
+        white-space: normal;
+    }
+
+    .charts-grid,
+    .chart-grid,
+    .charts-container {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-3);
+        margin-bottom: var(--space-5);
+    }
+
+    .chart-card {
+        padding: var(--space-4);
+    }
+
+    .chart-canvas-container {
+        height: 250px;
+    }
+
+    .chart-card .chart-container {
+        height: 250px;
+    }
+}
+
+@media (max-width: 380px) {
+    .kpi-grid,
+    .kpi-cards,
+    .metrics-grid,
+    .stats-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .filters-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .filter-actions {
+        grid-column: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
